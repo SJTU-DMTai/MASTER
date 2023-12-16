@@ -6,8 +6,6 @@ This is the official code and supplementary materials for our AAAI-2024 paper: *
 Our original experiments was conducted in a complex business codebase developed based on Qlib. The original code is confidential and exhaustive. In order to enable anyone to quickly use MASTER and reproduce the paper's results, here we publish our well-processed data and core code. 
 
 ## Usage
-
----
 1. Install dependencies.
 - pandas == 1.5.3
 - torch == 1.11.0
@@ -16,15 +14,13 @@ Our original experiments was conducted in a complex business codebase developed 
 - <code>pip install pyqlib </code>
 - pyqlib == 0.9.1.99
 
-3. Unpack data into <code> data/ </code>.
+3. Download data from Unpack data into <code> data/ </code>.
 
 4. Run main.py.
 
 5. We provide two trained models: <code> model/csi300master_0.pkl, model/csi800master_0.pkl</code>
 
 ## Dataset
-
----
 ### Form
 Grouped by prediction dates, the published data is of shape N, T, F, where:
 - N - number of stocks
@@ -51,8 +47,6 @@ To mitigate the difference between a normal distribution and groundtruth distrib
 Note that the reported RankIC compares the output ranking with the groundtruth, whose value is not affected by the label normalization.
 
 ## Cite
-
----
 If you use the data or the code, please cite our work! :smile:
 
 
