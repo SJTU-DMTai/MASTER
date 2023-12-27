@@ -1,5 +1,7 @@
 # Readme 
-This is the official code and supplementary materials for our AAAI-2024 paper: **MASTER: Market-Guided Stock Transformer for Stock Price Forecasting**. MASTER is a stock transformer for stock price forecasting, which models the momentary and cross-time stock correlation and guides feature selection with market information.
+This is the official code and supplementary materials for our AAAI-2024 paper: **MASTER: Market-Guided Stock Transformer for Stock Price Forecasting**. [ArXiv preprint](https://arxiv.org/abs/2312.15235) 
+
+MASTER is a stock transformer for stock price forecasting, which models the momentary and cross-time stock correlation and guides feature selection with market information.
 
 ![MASTER framework](framework.png)
 
@@ -55,5 +57,5 @@ The published data went through the following necessary preprocessing.
 - Daily Z-score normalization is a common practice in Qlib to standardize the labels for stock price forecasting. To mitigate the difference between a normal distribution and groundtruth distribution, we filtered out 5\% of most extreme labels in training. Note that the reported RankIC compares the output ranking with the groundtruth, whose value is not affected by the label normalization.
 
 ## Cite
-If you use the data or the code, please cite our work! :smile: An ArXiv preprint version is coming soon!
+If you use the data or the code, please cite our work! :smile: 
 
