@@ -1,5 +1,5 @@
 # Readme 
-This is the official code and supplementary materials for our AAAI-2024 paper: **MASTER: Market-Guided Stock Transformer for Stock Price Forecasting**. [ArXiv preprint](https://arxiv.org/abs/2312.15235) 
+This is the official code and supplementary materials for our AAAI-2024 paper: **MASTER: Market-Guided Stock Transformer for Stock Price Forecasting**. [[Paper]](ojs.aaai.org/index.php/AAAI/article/view/27767)  [[ArXiv preprint]](https://arxiv.org/abs/2312.15235) 
 
 MASTER is a stock transformer for stock price forecasting, which models the momentary and cross-time stock correlation and guides feature selection with market information.
 
@@ -12,11 +12,14 @@ Our original experiments were conducted in a complex business codebase developed
 - pandas == 1.5.3
 - torch == 1.11.0
 
-2. Install [Qlib](github.com/microsoft/qlib). We have minimized the reliance on Qlib, and you can simply install it by
+2. Install [Qlib](https://github.com/microsoft/qlib). We have minimized the reliance on Qlib, and you can simply install it by
 - <code>pip install pyqlib </code>
 - pylib == 0.9.1.99
 
-3. Download data from [OneDrive link](https://1drv.ms/f/c/652674690cc447e6/Eu8Kxv4xxTFMtDQqTW0IU0UB8rnpjACA5twMi8BA_PfbSA?e=ooc0za) (or an alternative choice [MEGA link](https://mega.nz/file/4OE0jK4I#h-LG7OjFnncbL_YGoSx5c0W604OdFMgALTYFcoDvgfw)) and unpack it into <code> data/ </code>.
+3. Download data from one of the following links (the data files are the same) and unpack it into <code> data/ </code>
+- [OneDrive link](https://1drv.ms/f/c/652674690cc447e6/Eu8Kxv4xxTFMtDQqTW0IU0UB8rnpjACA5twMi8BA_PfbSA?e=ooc0za)
+- [MEGA link](https://mega.nz/file/4OE0jK4I#h-LG7OjFnncbL_YGoSx5c0W604OdFMgALTYFcoDvgfw)
+- :fire:[New] [Baidu link](https://pan.baidu.com/s/1Wv_nzmw6vlexqZinV_zLtA?pwd=hrrl). 
 
 5. Run main.py.
 
@@ -56,6 +59,31 @@ The published data went through the following necessary preprocessing.
 2. Drop NA labels and 5% of the most extreme labels, and perform **daily Z-score normalization** on labels. 
 - Daily Z-score normalization is a common practice in Qlib to standardize the labels for stock price forecasting. To mitigate the difference between a normal distribution and groundtruth distribution, we filtered out 5\% of most extreme labels in training. Note that the reported RankIC compares the output ranking with the groundtruth, whose value is not affected by the label normalization.
 
+## :fire: [New] A Qlib implementation
+We are happy to hear that MASTER has been integrated into the open-sourced Qlib framework at this [repo](https://github.com/SJTU-Quant/qlib/tree/main/examples/benchmarks/MASTER). We thank [LIU, Qiaoan](https://github.com/zhiyuan5986) and [ZHAO, Lifan](https://github.com/MogicianXD) for their contributions and please also give credits to the new repo if you use it. 
+
+As a brief introduction to the new version, with the Qlib framework, you can
+- report AR, IR, and more portfolio-based metrics,
+- modify experiment configuration with .yaml files,
+- compare with various models from the Qlib examples collection,
+- benefit from other merits of Qlib.
+
+In the meantime, please note that
+- The new version utilizes **a different data source** published by Qlib, which covers a different timespan. The new data source is considered **logically equal** to our published data but may differ in values.
+- The new version does **not** include the 'DropExtremeLabel' operation in data preprocessing but also reports decent performance.
+
 ## Cite
-If you use the data or the code, please cite our work! :smile: 
+If you use the data or the code, please cite our work! :smile:
+```latex
+@inproceedings{li2024master,
+  title={Master: Market-guided stock transformer for stock price forecasting},
+  author={Li, Tong and Liu, Zhaoyang and Shen, Yanyan and Wang, Xue and Chen, Haokun and Huang, Sen},
+  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume={38},
+  number={1},
+  pages={162--170},
+  year={2024}
+}
+```
+
 
