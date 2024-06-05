@@ -164,7 +164,7 @@ class SequenceModel():
             'IC': np.mean(ic),
             'ICIR': np.mean(ic)/np.std(ic),
             'RIC': np.mean(ric),
-            'RICIR': np.mean(ic)/np.std(ric)
+            'RICIR': np.mean(ric)/np.std(ric)
         }
 
         return predictions, metrics
