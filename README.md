@@ -13,13 +13,13 @@ Our original experiments were conducted in a complex business codebase developed
 - torch == 1.11.0
 
 2. Install [Qlib](https://github.com/microsoft/qlib). We have minimized the reliance on Qlib, and you can simply install it by
-- <code>pip install pyqlib </code>
+- <code>pip install pyqlib </code> (Pip installation only supports python 3.7 and 3.8, please refer to its Readme.md.)
 - pylib == 0.9.1.99
 
 3. Download data from one of the following links (the data files are the same) and unpack it into <code> data/ </code>
 - [OneDrive link](https://1drv.ms/f/c/652674690cc447e6/Eu8Kxv4xxTFMtDQqTW0IU0UB8rnpjACA5twMi8BA_PfbSA?e=ooc0za)
 - [MEGA link](https://mega.nz/file/4OE0jK4I#h-LG7OjFnncbL_YGoSx5c0W604OdFMgALTYFcoDvgfw)
-- :fire:[New] [Baidu link](https://pan.baidu.com/s/1Wv_nzmw6vlexqZinV_zLtA?pwd=hrrl). 
+- [Baidu link](https://pan.baidu.com/s/1Wv_nzmw6vlexqZinV_zLtA?pwd=hrrl). 
 
 5. Run main.py.
 
@@ -59,7 +59,7 @@ The published data went through the following necessary preprocessing.
 2. Drop NA labels and 5% of the most extreme labels, and perform **daily Z-score normalization** on labels. 
 - Daily Z-score normalization is a common practice in Qlib to standardize the labels for stock price forecasting. To mitigate the difference between a normal distribution and groundtruth distribution, we filtered out 5\% of most extreme labels in training. Note that the reported RankIC compares the output ranking with the groundtruth, whose value is not affected by the label normalization.
 
-## :fire: [New] A Qlib implementation
+## An Alternative Qlib implementation
 We are happy to hear that MASTER has been integrated into the open-sourced Qlib framework at this [repo](https://github.com/SJTU-Quant/qlib/tree/main/examples/benchmarks/MASTER). We thank [LIU, Qiaoan](https://github.com/zhiyuan5986) and [ZHAO, Lifan](https://github.com/MogicianXD) for their contributions and please also give credits to the new repo if you use it. 
 
 As a brief introduction to the new version, with the Qlib framework, you can
@@ -70,6 +70,7 @@ As a brief introduction to the new version, with the Qlib framework, you can
 
 In the meantime, please note that
 - The new version utilizes **a different data source** published by Qlib, which covers a different timespan. The new data source is considered **logically equal** to our published data but may differ in values.
+- :fire:[Add new notice] The new version uses **stock universe CSI300 & CSI500**, because qlib does **not** include a CSI800 dataset. Correspondingly, **the representative indices to construct market information are different**, it uses CSI100, CSI300, and CSI500, which is different from CSI300, CSI500, and CSI800 as in this repo.
 - The new version does **not** include the 'DropExtremeLabel' operation in data preprocessing but also reports decent performance.
 
 ## Cite
