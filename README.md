@@ -54,10 +54,11 @@ for S in csi300, csi500, csi800:
 ```
 
 ### Preprocessing
-The published data went through the following necessary preprocessing. 
-1. Drop NA features, and perform robust daily Z-score normalization on each feature dimension.
-2. Drop NA labels and 5% of the most extreme labels, and perform **daily Z-score normalization** on labels. 
-- Daily Z-score normalization is a common practice in Qlib to standardize the labels for stock price forecasting. To mitigate the difference between a normal distribution and groundtruth distribution, we filtered out 5\% of most extreme labels in training. Note that the reported RankIC compares the output ranking with the groundtruth, whose value is not affected by the label normalization.
+:fire:[Update Detailed Description] The published data went through the following necessary preprocessing. 
+
+1. For features, we first perform [**RobustZScoreNorm**](https://github.com/microsoft/qlib/blob/main/qlib/data/dataset/processor.py), which computes median and MAD for each feature of all stocks in the training timespan for normalization. It then clips outliers as -3 and 3. When processing the test data, the median and MAD for each feature are **estimated by** (or borrowed from) the training data, so that we have no data leakage. We then use [**Fillna**](https://github.com/microsoft/qlib/blob/main/qlib/data/dataset/processor.py) to fill the NA features as default value 0. 
+   
+2. For labels, we first drop NA labels and 5% of the most extreme labels. Then, we perform [**CSZscoreNorm**](https://github.com/microsoft/qlib/blob/main/qlib/data/dataset/processor.py) on labels. CSZcoreNorm is a common practice in Qlib to standardize the labels for stock price forecasting. Here 'CS' stands for Cross-Sectional, which means we group the labels on each date and compute mean/std across stocks for normalization. To mitigate the difference between a normal distribution and groundtruth distribution, we filtered out 5\% of most extreme labels in training. Note that the reported RankIC compares the output ranking with the groundtruth, whose value is not affected by the label normalization.
 
 ## An Alternative Qlib implementation
 We are happy to hear that MASTER has been integrated into the open-sourced Qlib framework at this [repo](https://github.com/SJTU-Quant/qlib/tree/main/examples/benchmarks/MASTER). We thank [LIU, Qiaoan](https://github.com/zhiyuan5986) and [ZHAO, Lifan](https://github.com/MogicianXD) for their contributions and please also give credits to the new repo if you use it. 
@@ -70,7 +71,7 @@ As a brief introduction to the new version, with the Qlib framework, you can
 
 In the meantime, please note that
 - The new version utilizes **a different data source** published by Qlib, which covers a different timespan. The new data source is considered **logically equal** to our published data but may differ in values.
-- :fire:[Add new notice] The new version uses **stock universe CSI300 & CSI500**, because qlib does **not** include a CSI800 dataset. Correspondingly, **the representative indices to construct market information are different**, it uses CSI100, CSI300, and CSI500, which is different from CSI300, CSI500, and CSI800 as in this repo.
+- The new version uses **stock universe CSI300 & CSI500**, because qlib does **not** include a CSI800 dataset. Correspondingly, **the representative indices to construct market information are different**, it uses CSI100, CSI300, and CSI500, which is different from CSI300, CSI500, and CSI800 as in this repo.
 - The new version does **not** include the 'DropExtremeLabel' operation in data preprocessing but also reports decent performance.
 
 ## Cite
