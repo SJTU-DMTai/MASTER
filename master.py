@@ -171,8 +171,7 @@ class TemporalAttention(nn.Module):
 
 
 class MASTER(nn.Module):
-    def __init__(self, d_feat=158, d_model=256, t_nhead=4, s_nhead=2, T_dropout_rate=0.5, S_dropout_rate=0.5,
-                 gate_input_start_index=158, gate_input_end_index=221, beta=None):
+    def __init__(self, d_feat, d_model, t_nhead, s_nhead, T_dropout_rate, S_dropout_rate, gate_input_start_index, gate_input_end_index, beta):
         super(MASTER, self).__init__()
         # market
         self.gate_input_start_index = gate_input_start_index
@@ -197,7 +196,7 @@ class MASTER(nn.Module):
         src = x[:, :, :self.gate_input_start_index] # N, T, D
         gate_input = x[:, -1, self.gate_input_start_index:self.gate_input_end_index]
         src = src * torch.unsqueeze(self.feature_gate(gate_input), dim=1)
-
+       
         output = self.layers(src).squeeze(-1)
 
         return output
@@ -205,8 +204,8 @@ class MASTER(nn.Module):
 
 class MASTERModel(SequenceModel):
     def __init__(
-            self, d_feat: int = 20, d_model: int = 64, t_nhead: int = 4, s_nhead: int = 2, gate_input_start_index=None, gate_input_end_index=None,
-            T_dropout_rate=0.5, S_dropout_rate=0.5, beta=5.0, **kwargs,
+            self, d_feat, d_model, t_nhead, s_nhead, gate_input_start_index, gate_input_end_index,
+            T_dropout_rate, S_dropout_rate, beta, **kwargs,
     ):
         super(MASTERModel, self).__init__(**kwargs)
         self.d_model = d_model
