@@ -7,20 +7,21 @@ MASTER is a stock transformer for stock price forecasting, which models the mome
 
 Our original experiments were conducted in a complex business codebase developed based on Qlib. The original code is confidential and exhaustive. In order to enable anyone to quickly use MASTER, here we publish our well-processed data and core code. 
 
-## :fire: Important Notice on 2024-12-07
-Our previous published valid & test data are problematic as we mistakenly used the training processors when dumping them out from our codebase. We recently found out this issue that previously published valid & test data per day contains 95% of all stocks, but in our original experiment, we used all stocks. The original datasource and codebase are the company's properties. It is sad that although we tried a lot to publish the dumped data for everyone, we ended up with mistake operations. Now our access has expired and we cannot dump the original correct valid & test data again. 
+---
 
-We try to remedy it with this [opensource data](github.com/chenditc/investment_data/releases), and process it again with the Qlib framework. You can now download them from one of the following links (the data files are the same) and seamlessly use them in this lightweight repo. 
+## :fire: Important Notice on 2025-06-26
+### About the Qlib Version
+The linked Qlib version is not under the authors' maintenance and there can be inconsistency to this repo, or to the paper. To reduce the difference, we have published some files under `qlib-update` to help those who encounter problems when using Qlib repo. Still, please refrain us from answering questions on how to use Qlib. 
 
-- :fire:[Update opensource data][OneDrive link](https://1drv.ms/f/c/652674690cc447e6/Eu8Kxv4xxTFMtDQqTW0IU0UB8rnpjACA5twMi8BA_PfbSA)
-- :fire:[Update opensource data][MEGA link](https://mega.nz/folder/MS8mUTbL#qeVz3KR1-MyXc_uLPtkvTg)
-- :fire:[Update opensource data][Baidu link](https://pan.baidu.com/s/1qmDIepmGY1DVBTGGiipxfA?pwd=pm49). 
+### About Validation
+For validation, we need to feed all the samples to the model but only drop nan labels when computing metrics. We recently noticed that the linked Qlib version is different from our intention by directly using the `learn_processor` instead of `infer_processor` for the validation set. It also affects the published validation data (v. 2024-12-07) as we dumped it with the help of the linked Qlib version. Luckily, it **won't affect any checkpoint or results** if you use **the training loss threshold** to end the training, as we did.
 
-Our original codebase implemented a DropExtremeLabel processor that 1) drop 5% extreme labels during training and 2) predict for all stocks on inference. Since the Qlib framework does not own such a processor, we add a few lines in <code>base_model.py/SequenceModel/train_epoch </code> to clumsily perform DropExtremeLabel and CSZcoreNorm during training. You can find comments in the code and read more in the <code> Readme:Preprocessing </code>.
+Since there is no significant impact, we will not dump and republish the validation data again. If you are interested in remedying the flaw or observing the validation loss, pay attention to `qlib-update/pytorch_master_ts.py`, especially the `fit`, `test_epoch` and `predict` functions of class `MASTERModel`. Also, you can easily dump it by yourself with `dump_data`.
 
-Luckily, for training, you can still choose from the original data or opensource data. The original training data including market information are correctly dumped.Here we attach results with the renewed data and seed 0-4 in <code>model/performance.xlsx</code>. We did not tune on hyperparameters. Since the data source is changed, you may want to tune on beta and the stopping epoch. 
+For any questions, please first check on the closed issues! There should be some solutions as this repo have been here for more than 2.5 years. :smile:
 
-For any questions, please first check on the closed issues, and then open a new one if necessary. We made a lot of efforts to share the outcomings of this research during the years after publication, although most of the the authors had moved on to other researches. Thank you very much for the attention and understanding :smile:
+---
+
 
 ## Usage
 1. Install dependencies.
@@ -38,6 +39,20 @@ For any questions, please first check on the closed issues, and then open a new 
 
 
 ## Dataset
+### Choose a data source
+Our previous published valid & test data are problematic as we mistakenly used the training processors when dumping them out from our codebase. We recently found out this issue that previously published valid & test data per day contains 95% of all stocks, but in our original experiment, we used all stocks. The original datasource and codebase are the company's properties. It is sad that although we tried a lot to publish the dumped data for everyone, we ended up with mistake operations. Now our access has expired and we cannot dump the original correct valid & test data again. 
+
+We try to remedy it with this [opensource data](github.com/chenditc/investment_data/releases), and process it again with the Qlib framework. You can now download them from one of the following links (the data files are the same) and seamlessly use them in this lightweight repo. 
+
+- :fire:[Update opensource data][OneDrive link](https://1drv.ms/f/c/652674690cc447e6/Eu8Kxv4xxTFMtDQqTW0IU0UB8rnpjACA5twMi8BA_PfbSA)
+- :fire:[Update opensource data][MEGA link](https://mega.nz/folder/MS8mUTbL#qeVz3KR1-MyXc_uLPtkvTg)
+- :fire:[Update opensource data][Baidu link](https://pan.baidu.com/s/1qmDIepmGY1DVBTGGiipxfA?pwd=pm49). 
+
+Our original codebase implemented a DropExtremeLabel processor that 1) drop 5% extreme labels during training and 2) predict for all stocks on inference. Since the Qlib framework does not own such a processor, we add a few lines in <code>base_model.py/SequenceModel/train_epoch </code> to clumsily perform DropExtremeLabel and CSZcoreNorm during training. You can find comments in the code and read more in the <code> Readme:Preprocessing </code>.
+
+Luckily, for training, you can still choose from the original data or opensource data. The original training data including market information are correctly dumped.Here we attach results with the renewed data and seed 0-4 in <code>model/performance.xlsx</code>. We did not tune on hyperparameters. Since the data source is changed, you may want to tune on beta and the stopping epoch. 
+
+
 ### Form
 The downloaded data is split into training, validation, and test sets, with two stock universes. Note the csi300 data is a subset of the csi800 data. You can use the following code to investigate the **datetime, instrument, and feature formulation**.
 ```python

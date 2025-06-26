@@ -27,7 +27,6 @@ def drop_extreme(x):
     return mask, x[mask]
 
 def drop_na(x):
-    N = x.shape[0]
     mask = ~x.isnan()
     return mask, x[mask]
 
@@ -133,15 +132,19 @@ class SequenceModel():
             feature = data[:, :, 0:-1].to(self.device)
             label = data[:, -1, -1].to(self.device)
 
-            # You cannot drop extreme labels for test. 
+            # Note the difference: 
+            # 1) The qlib.DropnaLabel drop **samples** according to label.
+            # 2) Here we use all samples to compute the inter-stock correlation, but only drop the na labels to compute metrics (loss, etc.).
+            # 3) If you already used qlib.DropnaLabel to process the validation data, this will do nothing.
+            mask, label = drop_na(label)
             label = zscore(label)
                         
             pred = self.model(feature.float())
-            loss = self.loss_fn(pred, label)
+            loss = self.loss_fn(pred[mask], label)
             losses.append(loss.item())
 
         return float(np.mean(losses))
-
+    
     def _init_data_loader(self, data, shuffle=True, drop_last=True):
         sampler = DailyBatchSamplerRandom(data, shuffle)
         data_loader = DataLoader(data, sampler=sampler, drop_last=drop_last)
@@ -166,8 +169,6 @@ class SequenceModel():
                 best_param = copy.deepcopy(self.model.state_dict())
                 torch.save(best_param, f'{self.save_path}/{self.save_prefix}_{self.seed}.pkl')
                 break
-        
-
         
 
     def predict(self, dl_test):
